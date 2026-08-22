@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cloupanz APK Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="brand"><div class="brand-icon">⚡</div><div><b>Cloupanz</b><span>APK Builder</span></div></div>
+      <div class="pill">GitHub Actions</div>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">BUILD FROM YOUR PHONE</p>
+      <h1>Turn your web project<br><em>into an APK.</em></h1>
+      <p class="sub">Upload ZIP, pilih nama dan logo. GitHub yang melakukan proses build.</p>
+    </section>
+
+    <section class="card">
+      <label class="drop" id="drop">
+        <input id="zip" type="file" accept=".zip" hidden>
+        <div class="drop-icon">📦</div>
+        <strong id="zipTitle">Upload Project ZIP</strong>
+        <span id="zipInfo">HTML, CSS, JS, assets, dan file website kamu</span>
+        <button type="button" onclick="document.getElementById('zip').click()">Pilih ZIP</button>
+      </label>
+
+      <div class="grid">
+        <label class="field"><span>Nama APK</span><input id="appName" value="Cloupanz App" maxlength="30" placeholder="Nama aplikasi"></label>
+        <label class="field"><span>Package Name</span><input id="packageName" value="com.cloupanz.app" maxlength="80" placeholder="com.example.app"></label>
+      </div>
+
+      <label class="logo">
+        <input id="logo" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        <div id="preview">🖼️</div>
+        <div><strong>Pilih Logo APK</strong><span id="logoInfo">PNG/JPG/WebP · disarankan 512×512</span></div>
+        <button type="button" onclick="document.getElementById('logo').click()">Pilih</button>
+      </label>
+
+      <button class="build" id="build">🚀 BUILD APK</button>
+
+      <section class="status hidden" id="status">
+        <div class="status-head"><span id="statusDot">●</span><strong id="statusText">Menyiapkan build...</strong><b id="percent">0%</b></div>
+        <div class="bar"><i id="bar"></i></div>
+        <pre id="log">Menghubungkan ke GitHub...</pre>
+        <a id="download" class="download hidden" href="#" target="_blank">📥 DOWNLOAD APK</a>
+      </section>
+    </section>
+
+    <footer>Build dilakukan oleh GitHub Actions · Cloupanz APK Builder</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
