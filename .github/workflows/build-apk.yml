@@ -6,9 +6,12 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
-    name: Build APK
+    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -30,29 +33,40 @@ jobs:
           sdkmanager "platform-tools"
           sdkmanager "platforms;android-35"
           sdkmanager "build-tools;35.0.0"
-          yes | sdkmanager --licenses || true
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.7'
 
       - name: Enable AndroidX
         run: |
-          echo "android.useAndroidX=true" >> gradle.properties
-          echo "android.enableJetifier=true" >> gradle.properties
+          mkdir -p ~/.gradle
+          cat >> ~/.gradle/gradle.properties <<'EOF'
+          android.useAndroidX=true
+          android.enableJetifier=true
+          EOF
 
       - name: Build Debug APK
         run: |
-          chmod +x gradlew
-          ./gradlew clean assembleDebug
+          gradle assembleDebug --stacktrace
 
       - name: Find APK
+        id: find-apk
         run: |
-          echo "APK yang berhasil dibuat:"
-          find app/build/outputs/apk -type f -name "*.apk" -print
+          APK=$(find . -type f -name "*.apk" | head -n 1)
+
+          if [ -z "$APK" ]; then
+            echo "APK tidak ditemukan!"
+            exit 1
+          fi
+
+          echo "APK ditemukan: $APK"
+          echo "apk_path=$APK" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: cloupanz-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: cloupanz-debug-apk
+          path: ${{ steps.find-apk.outputs.apk_path }}
           if-no-files-found: error
