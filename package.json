@@ -1,0 +1,1 @@
+{"type":"module","scripts":{"start":"node server.js"},"dependencies":{"@octokit/rest":"^21.0.2","cors":"^2.8.5","express":"^5.1.0","multer":"^2.0.2","uuid":"^11.1.0","archiver":"^7.0.1"}}
